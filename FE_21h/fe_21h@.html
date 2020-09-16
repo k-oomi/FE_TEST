@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">    <style>
+        table {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        td {
+            outline: 1px solid black;
+            text-align: center;
+            height: 30px;
+            width: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-group container">
+        <form name="form1">
+            <label>New Color</label>
+            <select id="list" class="form-control" name="color1">
+                <option value="-">-</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+
+        </form>
+    </div>
+    <div id="content"></div>
+</body>
+<script>
+    const content = document.getElementById('content');
+    const tableTd = document.getElementsByTagName('td'); //テーブルのtd
+    const table = document.createElement('table');
+    const color1 = document.form1.color1;
+    let Image = [
+        ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+        ['0', '2', '2', '2', '3', '3', '3', '2', '2', '0'],
+        ['0', '2', '2', '3', '3', '2', '2', '2', '2', '0'],
+        ['0', '2', '3', '3', '2', '2', '2', '2', '2', '0'],
+        ['0', '2', '3', '3', '3', '3', '3', '2', '2', '0'],
+        ['0', '2', '3', '3', '2', '2', '3', '3', '2', '0'],
+        ['0', '2', '3', '2', '2', '2', '2', '3', '2', '0'],
+        ['0', '2', '3', '3', '2', '2', '3', '3', '2', '0'],
+        ['0', '2', '2', '3', '3', '3', '3', '2', '2', '0'],
+        ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+    ]
+    
+    const createTable = () => {
+        table.id = 'maintable';
+        const maintable = document.getElementById('maintable');
+
+        for (let i = 0; i < Image.length; i++) {
+            var tr = document.createElement('tr');
+            for (let j = 0; j < Image[i].length; j++) {
+                var td = document.createElement('td');
+                try {
+                    td.innerHTML = Image[i][j];
+                    tr.appendChild(td);
+
+                } catch (e) {
+                    console.log('エラーは' + i, j);
+                }
+            }
+            table.appendChild(tr);
+        }
+        content.appendChild(table);
+        chgTd();
+
+    };
+///////////////////////////////////////////////////////////////////////////////////
+//editTable
+///////////////////////////////////////////////////////////////////////////////////
+    const editTable = () => {
+        
+         //trをループ。rowsコレクションで行位置取得
+         for (let i = 0; i < maintable.rows.length; i++) {
+            for (let j = 0; j < maintable.rows[i].cells.length; j++) {
+                let Cells = maintable.rows[i].cells[j];//i行のｊ列
+                Cells.textContent = Image[i][j];
+               
+            }
+        }
+        chgTd();
+    };
+
+
+    //セルの色変更
+    function chgTd(event) {
+        for (let i = 0; i < tableTd.length; i++) {
+            
+            switch (tableTd[i].textContent) {
+                case '0':
+                    tableTd[i].style.backgroundColor = 'white';
+                    tableTd[i].style.color = 'white';
+                    break;
+                case '1':
+                    tableTd[i].style.backgroundColor = 'black';
+                    tableTd[i].style.color = 'black';
+                    break;
+                case '2':
+                    tableTd[i].style.backgroundColor = 'lightgrey';
+                    tableTd[i].style.color = 'lightgrey';
+                    break;
+                case '3':
+                    tableTd[i].style.backgroundColor = 'white';
+                    tableTd[i].style.color = 'white';
+                    break;
+                default:
+                    tableTd[i].style.backgroundColor = 'lime';
+                    tableTd[i].style.color = 'lime';
+            }
+        }
+    };
+
+    //セルの要素取得
+    const getCell = () => {
+        //trをループ。rowsコレクションで行位置取得
+        for (let i = 0; i < maintable.rows.length; i++) {
+            for (let j = 0; j < maintable.rows[i].cells.length; j++) {
+                let Cells = maintable.rows[i].cells[j];//i行のｊ列
+                //onclickで実行。thisはクリックしたセルのtdのオブジェクト
+                Cells.onclick = function () {
+                    Main(this);
+                }
+            }
+        }
+    };
+
+
+
+    // console.log(Image)
+    let VPos = new Array(64);
+    let HPos = new Array(64);
+    //テーブル作成
+
+    let VS, HS, CC, NC, More, Wall;
+
+    function CheckAndStack(Vt,Ht){
+        console.log('Vt ' + Vt + '　Ht ' + Ht);
+        console.log(Image)
+        console.log('checkandStack' + 'Image[Vt][Ht]は' + Image[VS][HS]);
+        if (Image[Vt][Ht] == CC) {
+            console.log('新しいカラー' + NC)
+            Image[Vt][Ht] = NC;
+            More = More + 1;
+            VPos[More] = Vt;
+            HPos[More] = Ht;
+        }
+    };
+
+    const Main = (Cell) => {
+         VS = Cell.parentNode.rowIndex;//Cellの親ノード'tr'の行位置
+         HS = Cell.cellIndex;//セルの位置
+        const num = color1.selectedIndex;
+         NC = color1.options[num].value;
+        console.log(VS + '行目');
+        console.log(HS + '列目');
+        let V, H;
+        CC = Image[VS][HS];
+       console.log('古いカラー' + CC)
+       console.log(Image);
+        if (CC == NC) {
+            return;
+        }
+        Wall = "0";
+
+        for (V = 1; V <= 8; V++) {
+            Image[V][0] = Wall;
+            Image[V][0] = Wall;
+        }
+        for (H = 1; H <= 8; H++) {
+            Image[0][H] = Wall;
+            Image[0][H] = Wall;
+        }
+        More = 0;
+        CheckAndStack(VS, HS);
+
+
+        while (More > 0) {
+            V = VPos[More];
+            H = HPos[More];
+            More = More - 1;
+            CheckAndStack(V - 1, H);
+            CheckAndStack(V, H - 1);
+            CheckAndStack(V + 1, H);
+            CheckAndStack(V, H + 1);
+
+
+        }
+        editTable();
+
+        
+    };
+
+
+
+    createTable();
+    getCell();
+    console.log(Image[0][0]);
+
+
+
+
+
+
+</script>
+
+</html>

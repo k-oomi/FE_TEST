@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <div class="content">
+      <table>
+          <tr onclick='test()'><td id="1-1">test</td><td id="1-1">test</td></tr>
+          <tr><td>test</td></tr>
+          <tr><td>test</td></tr>
+          <tr><td>test</td></tr>
+      </table>
+  </div>   
+</body>
+    <script>
+        const td1_1 = document.getElementById('1-1');
+        const test = () =>{
+            td1_1.textContent = 'sample';
+        }
+    </script>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        body{
+            background-color: lightgoldenrodyellow;
+        }
+        table {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        td {
+            outline: 1px solid black;
+            text-align: center;
+            height: 30px;
+            width: 30px;
+        }
+
+        .white {
+            background-color: white;
+        }
+
+        .black {
+            background-color: black;
+        }
+
+        .gray {
+            background-color: gray;
+        }
+
+        .lightgrey {
+            background-color: lightgrey;
+        }
+    </style>
+</head>
+
+<body>
+    <button type="button" onclick="chgTd(event)">変更</button>
+    <p id="test">テスト用テキスト</p>
+    <p id="msg">select color</p>
+    <div id="content">
+
+    </div>
+
+</body>
+<script>
+    function action(event){
+            var msg = document.querySelector('#msg');
+            msg.className = '';
+            msg.classList.add('gray');
+            msg.textContent='変更しました'
+
+        }
+    
+
+
+    //*************************************************************************************************
+    //要素取得・変数
+    //*************************************************************************************************
+
+    const tableTd = document.getElementsByTagName('td'); //テーブルのtd
+    var p = document.getElementsByTagName('p'); //テーブルのtd //配列が返ってくる注意
+    var msg = document.getElementById('msg');
+    function chg(event){
+        msg.className = '';
+        msg.classList.add('gray')
+        p[0].className = '';
+        p[0].classList.add('black');
+
+    };
+
+    //セルの色変更
+    function chgTd(event){
+        for (let i = 0; i < tableTd.length; i++) {
+            switch (tableTd[i].textContent) {
+                case '0':
+                    tableTd[i].style.backgroundColor = 'gray';
+                    break;
+                case '1':
+                    tableTd[i].style.backgroundColor = 'black';
+                    tableTd[i].style.color = 'white';
+                    break;
+                case '2':
+                    tableTd[i].style.backgroundColor = 'lightgrey';
+                    break;
+                case '3':
+                    tableTd[i].style.backgroundColor = 'white';
+                    break;
+                default:
+                        tableTd[i].style.backgroundColor = 'lime';
+            }
+            console.log(tableTd[i].textContent);
+        }
+    };
+
+    const test = () =>{
+      
+        console.log('domが変化しました');
+        
+    }
+
+    console.log(tableTd); //テスト用
+    // const observ1 = new MutationObserver(function(){
+    //     p.classList.add('gray');
+        
+    //     console.log('domが変化しました');
+    // }); //監視用API
+    const observ1 = new MutationObserver(test);
+        
+        
+
+   
+    const config = { //DOM監視時のオプション
+        childList: true,
+        subtree: true
+    };
+
+    const Image = []; //フィールド用配列
+
+    //Imageの要素作成用ループ
+    for (let i = 0; i < 10; i++) {
+        Image[i] = [];
+        for (let j = 0; j < 10; j++) {
+            Image[i][j] = '';
+        }
+    }
+    //*************************************************************************************************
+    //関数
+    //*************************************************************************************************
+    //テーブル作成
+    const createTable = () => {
+        const table = document.createElement('table');
+        table.id = 'maintable';
+
+        const maintable = document.getElementById('maintable');
+
+        for (let i = 0; i < Image.length; i++) {
+            var tr = document.createElement('tr');
+            for (let j = 0; j < Image[i].length; j++) {
+                var td = document.createElement('td');
+
+                td.innerHTML = '<div contenteditable="true">0</div>';
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        }
+        content.appendChild(table);
+
+    }
+
+    //セルの要素取得
+    const getCell = () => {
+
+        //trをループ。rowsコレクションで行位置取得
+        for (let i = 0; i < maintable.rows.length; i++) {
+            for (let j = 0; j < maintable.rows[i].cells.length; j++) {
+                let Cells = maintable.rows[i].cells[j];//i行のｊ列
+                //onclickで実行。thisはクリックしたセルのtdのオブジェクト
+                Cells.onclick = function () {
+                    main(this);
+                }
+            }
+        }
+    };
+
+
+    //メイン関数
+    const main = (Cell) => {
+        let rowINX = Cell.parentNode.rowIndex;//Cellの親ノード'tr'の行位置
+        let cellINX = Cell.cellIndex;//セルの位置
+        let cellVal = Cell.innerHTML;//セルの内容
+
+        console.log(rowINX + '行目');
+        console.log(cellINX + '列目');
+        //try~catch例外処理、エラー処理
+        try {
+            // window.addEventListener('load', getCell, false);
+        } catch (e) {
+            console.log('エラー内容:' + e);
+        }
+
+    }
+
+    //*************************************************************************************************
+
+    createTable();
+    getCell();
+    observ1.observe(maintable, config);//要素が変更されたらコールバック実行
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</html>

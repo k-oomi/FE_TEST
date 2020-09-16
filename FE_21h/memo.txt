@@ -1,0 +1,91 @@
+switch (Cells.textContent) {
+            case '0':
+                Cells.style.backgroundColor = 'lightgrey';
+                break;
+            case '1':
+                Cells.style.backgroundColor = 'black';
+                break;
+            case '2':
+                Cells.style.backgroundColor = 'gray';
+                break;
+            case '3':
+                Cells.style.backgroundColor = 'white';
+                break;
+            default:
+        }
+
+        Cells.onchange = function () {
+            changeCell(this);
+        }
+
+
+
+
+////////////////////////////////////////////////////////////////////////////
+                const changeCell = (Cell) => {
+    console.log('チェンジメソッド');
+    switch (Cell.textContent) {
+        case '0':
+            Cell.style.backgroundColor = 'lightgrey';
+            break;
+        case '1':
+            Cell.style.backgroundColor = 'black';
+            break;
+        case '2':
+            Cell.style.backgroundColor = 'gray';
+            break;
+        case '3':
+            Cell.style.backgroundColor = 'white';
+            break;
+        default:
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////
+    const chgTd = () => {
+        for (let i = 0; i < tableTd.length; i++) {
+            switch (tableTd[i].textContent) {
+                case '0':
+                    tableTd[i].classLIst.add('lightgrey');
+                    break;
+                case '1':
+                    tableTd[i].classLIst.add('black');
+                    break;
+                case '2':
+                    tableTd[i].classLIst.add('gray');
+                    break;
+                case '3':
+                    tableTd[i].classLIst.add('white');
+                    break;
+                default:
+            }
+            console.log(tableTd[i].textContent);
+        }
+    }
+
+
+
+
+        for (let i = 0; i < tableTd.length; i++) {
+
+
+            switch (tableTd[i].textContent) {
+                case '0':
+                    tableTd[i].classList.add('gray');
+                    break;
+                case '1':
+                    tableTd[i].style.backgroundColor = 'black';
+                    break;
+                case '2':
+                    tableTd[i].style.backgroundColor = 'black';
+                    break;
+                case '3':
+                    tableTd[i].style.backgroundColor = 'black';
+                    break;
+                default:
+                        tableTd[i].style.backgroundColor = 'blue';
+            }
+            console.log(tableTd[i].textContent);
+        }
+
+        ,Image[1][2],Image[1][3]
