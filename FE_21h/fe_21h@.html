@@ -8,10 +8,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">    <style>
         table {
-            position: absolute;
+            margin: 30px auto;
+            /* position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%); */
+        }
+        caption{
+            width: 140px;
         }
 
         td {
@@ -24,9 +28,9 @@
 </head>
 
 <body>
-    <div class="form-group container">
+    <div class="form-group container mt-5">
         <form name="form1">
-            <label>New Color</label>
+            <label>New Colorを選択</label>
             <select id="list" class="form-control" name="color1">
                 <option value="-">-</option>
                 <option value="1">1</option>
@@ -36,7 +40,9 @@
 
         </form>
     </div>
-    <div id="content"></div>
+    <div id="content" class="container">
+
+    </div>
 </body>
 <script>
     const content = document.getElementById('content');
@@ -55,10 +61,13 @@
         ['0', '2', '2', '3', '3', '3', '3', '2', '2', '0'],
         ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
     ]
+    var cap = document.createElement('caption');
+    cap.textContent = '1つの画素を指定';
     
     const createTable = () => {
         table.id = 'maintable';
         const maintable = document.getElementById('maintable');
+        table.appendChild(cap);
 
         for (let i = 0; i < Image.length; i++) {
             var tr = document.createElement('tr');
@@ -74,6 +83,8 @@
             }
             table.appendChild(tr);
         }
+        
+
         content.appendChild(table);
         chgTd();
 
