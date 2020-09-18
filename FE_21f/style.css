@@ -1,0 +1,20 @@
+body{
+    font-size: 1.5rem;
+    margin: 0 auto;
+    width : 80%;
+    min-height: 100vh;
+    display: grid;
+    grid-template:
+    "....   ....   .... ...."30px
+    "number number .... aside "1fr
+    /auto   auto   100px 1fr;
+}
+
+.number{
+    grid-area: number;
+}
+
+aside{
+    grid-area: aside;
+}
+
